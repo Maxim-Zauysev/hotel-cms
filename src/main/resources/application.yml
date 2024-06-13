@@ -1,0 +1,14 @@
+spring:
+  main:
+    allow-circular-references: true
+  jpa:
+    generate-ddl: true
+    open-in-view: false
+  datasource:
+    url: jdbc:postgresql://localhost:5435/hotel_db
+    username: postgres
+    password: postgres
+    hikari:
+      schema: hotel_app_schema
+      connection-init-sql: CREATE SCHEMA IF NOT EXISTS hotel_app_schema
+      connection-timeout: 10000

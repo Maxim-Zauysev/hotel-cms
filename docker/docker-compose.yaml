@@ -1,0 +1,16 @@
+version: '3'
+services:
+  postgres:
+    image: postgres:15
+    ports:
+      - "5435:5432"
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=hotel_db
+    volumes:
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+    container_name: hotel_container
+
+#сменить порт 5435 если требуется
+#docker compose up
