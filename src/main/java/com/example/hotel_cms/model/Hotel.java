@@ -1,12 +1,11 @@
 package com.example.hotel_cms.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.util.List;
 
 @Data
 @Entity
@@ -24,4 +23,7 @@ public class Hotel {
     private Double centerDistance;
     private Integer rating;
     private Integer reviewCount;
+
+    @OneToMany(mappedBy = "hotel",cascade = CascadeType.ALL)
+    private List<Room> rooms;
 }

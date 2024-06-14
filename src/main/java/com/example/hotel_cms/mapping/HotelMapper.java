@@ -21,9 +21,7 @@ public interface HotelMapper {
         List<HotelResponse> hotelResponses =
                 hotels.stream().map(this::hotelToResponse).collect(Collectors.toList());
 
-        HotelResponseList response = new HotelResponseList();
-        response.setHotels(hotelResponses);
-
+        HotelResponseList response = new HotelResponseList(hotelResponses);
         return response;
     }
 
