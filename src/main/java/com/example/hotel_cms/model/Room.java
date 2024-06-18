@@ -11,6 +11,7 @@ import java.util.List;
 
 @Data
 @Entity
+@Table(name = "rooms")
 @NoArgsConstructor
 @AllArgsConstructor
 public class Room {

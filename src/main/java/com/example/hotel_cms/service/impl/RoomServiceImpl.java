@@ -7,11 +7,8 @@ import com.example.hotel_cms.repository.RoomRepository;
 import com.example.hotel_cms.service.HotelService;
 import com.example.hotel_cms.service.RoomService;
 import com.example.hotel_cms.utility.BeanUtils;
-import com.example.hotel_cms.web.response.RoomResponse;
 import lombok.RequiredArgsConstructor;
-import org.hibernate.Hibernate;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.text.MessageFormat;
 import java.util.List;
@@ -46,12 +43,8 @@ public class RoomServiceImpl implements RoomService {
     }
 
     @Override
-    @Transactional
     public List<Room> findAll() {
-        List<Room> rooms = roomRepository.findAll();
-        rooms.forEach(r-> Hibernate.initialize(r.getHotel()));
-        rooms.forEach(r-> Hibernate.initialize(r.getUnavailableDates()));
-        return rooms;
+        return roomRepository.findAll();
     }
 
     @Override

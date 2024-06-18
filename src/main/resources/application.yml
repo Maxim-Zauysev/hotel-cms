@@ -12,3 +12,10 @@ spring:
       schema: hotel_app_schema
       connection-init-sql: CREATE SCHEMA IF NOT EXISTS hotel_app_schema
       connection-timeout: 10000
+  liquibase:
+    enabled: false
+
+
+app:
+  security:
+    type: db
