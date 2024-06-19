@@ -1,6 +1,8 @@
 package com.example.hotel_cms.web.controller;
 
+import com.example.hotel_cms.exception.BookedRoomException;
 import com.example.hotel_cms.exception.EntityNotFoundException;
+import com.example.hotel_cms.exception.NotUniqUserException;
 import com.example.hotel_cms.web.response.ErrorResponse;
 
 import lombok.extern.slf4j.Slf4j;
@@ -24,6 +26,20 @@ public class ExceptionHandierController {
     public ResponseEntity<ErrorResponse> handleEntityNotFoundException(EntityNotFoundException ex) {
         ErrorResponse response = new ErrorResponse(ex.getMessage());
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
+    }
+
+    @ExceptionHandler(NotUniqUserException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ResponseEntity<ErrorResponse> handleNotUniqUserException(NotUniqUserException ex) {
+        ErrorResponse response = new ErrorResponse(ex.getMessage());
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
+    }
+
+    @ExceptionHandler(BookedRoomException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ResponseEntity<ErrorResponse> handleBookedRoomException(BookedRoomException ex) {
+        ErrorResponse response = new ErrorResponse(ex.getMessage());
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)

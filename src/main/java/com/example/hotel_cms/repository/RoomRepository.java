@@ -12,4 +12,7 @@ import java.util.Optional;
 public interface RoomRepository extends JpaRepository<Room,Long> {
     @EntityGraph(attributePaths = {"hotel","unavailableDates"})
     List<Room> findAll();
+    @EntityGraph(attributePaths = {"hotel","unavailableDates"})
+    Optional<Room> findById(Long id);
+
 }

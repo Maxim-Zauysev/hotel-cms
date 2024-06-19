@@ -33,4 +33,8 @@ public class User {
     @ToString.Exclude
     private Role role;
 
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    @EqualsAndHashCode.Exclude
+    @ToString.Exclude
+    private List<Booking> bookings = new ArrayList<>();
 }
