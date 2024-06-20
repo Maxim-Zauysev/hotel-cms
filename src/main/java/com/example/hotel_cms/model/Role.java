@@ -1,10 +1,8 @@
 package com.example.hotel_cms.model;
 
 import jakarta.persistence.*;
-import lombok.Data;
+import lombok.*;
 
-import lombok.EqualsAndHashCode;
-import lombok.ToString;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
@@ -12,11 +10,10 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 @Entity
 @Table(name = "authorities")
 public class Role {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Enumerated
+    @Enumerated(value = EnumType.STRING)
     private RoleType authority;
 
     @OneToOne(fetch =  FetchType.EAGER)
@@ -34,5 +31,4 @@ public class Role {
         role.setAuthority(type);
         return role;
     }
-
 }

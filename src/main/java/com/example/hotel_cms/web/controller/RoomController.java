@@ -9,7 +9,7 @@ import com.example.hotel_cms.web.response.RoomResponseList;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.transaction.annotation.Transactional;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -21,6 +21,7 @@ public class RoomController {
     private final RoomMapper roomMapper;
 
     @PostMapping
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     public ResponseEntity<RoomResponse> create(@RequestBody RoomRequest request){
         Room room = roomMapper.requestToRoom(request);
         Room createdRoom = roomService.create(room, request.getHotelId());
@@ -42,6 +43,7 @@ public class RoomController {
     }
 
     @PutMapping("/{id}")
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     public ResponseEntity<RoomResponse> update(@PathVariable Long id,
                                                @RequestBody RoomRequest request){
         Room room = roomMapper.requestToRoom(request);
@@ -50,6 +52,7 @@ public class RoomController {
     }
 
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     public ResponseEntity<Void> deleteById(@PathVariable Long id){
         roomService.deleteById(id);
         return ResponseEntity.noContent().build();

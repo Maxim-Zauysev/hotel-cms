@@ -9,6 +9,7 @@ import com.example.hotel_cms.web.response.BookingResponseList;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 
@@ -27,6 +28,7 @@ public class BookingController {
     }
 
     @GetMapping
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     public ResponseEntity<BookingResponseList> getAll(){
 
         return ResponseEntity.ok(new BookingResponseList(bookingService.getAllBookings()));
