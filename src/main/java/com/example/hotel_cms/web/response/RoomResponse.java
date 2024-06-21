@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 
 import java.util.Date;
 import java.util.List;
+import java.sql.Timestamp;
 
 @Data
 @NoArgsConstructor
@@ -18,6 +19,6 @@ public class RoomResponse {
     private Integer number;
     private Double cost;
     private Integer guestsLimit;
-    private List<Date> unavailableDates;
+    private List<Timestamp> unavailableDates;
     private String hotelName;
 }

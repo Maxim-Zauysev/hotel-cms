@@ -25,7 +25,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User create(User user, Role role) {
-        if (userRepository.existsByUsernameAndEmail(user.getUsername(), user.getEmail()))
+        if (userRepository.existsByUsernameOrEmail(user.getUsername(), user.getEmail()))
             throw new NotUniqUserException("username and email should be uniq");
         user.setRole(role);
         user.setPassword(passwordEncoder.encode(user.getPassword()));

@@ -8,6 +8,7 @@ import jakarta.validation.constraints.Positive;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import java.sql.Timestamp;
 
 import java.util.Date;
 import java.util.List;
@@ -30,7 +31,7 @@ public class RoomRequest {
     @NotNull(message = "Guests limit is mandatory")
     @Min(value = 1, message = "Guests limit must be greater than 0")
     private Integer guestsLimit;
-    private List<Date> unavailableDates;
+    private List<Timestamp> unavailableDates;
     @NotNull(message = "Hotel ID is mandatory")
     private Long hotelId;
 

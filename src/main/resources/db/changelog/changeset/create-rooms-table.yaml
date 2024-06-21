@@ -1,0 +1,51 @@
+databaseChangeLog:
+  - changeSet:
+      id: create-rooms
+      author: maxim
+      changes:
+        - createTable:
+            tableName: rooms
+            columns:
+              - column:
+                  name: id
+                  type: BIGINT
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: name
+                  type: VARCHAR(255)
+                  constraints:
+                    nullable: true
+              - column:
+                  name: description
+                  type: VARCHAR(1000)
+                  constraints:
+                    nullable: true
+              - column:
+                  name: number
+                  type: INTEGER
+                  constraints:
+                    nullable: true
+              - column:
+                  name: cost
+                  type: DOUBLE
+                  constraints:
+                    nullable: true
+              - column:
+                  name: guests_limit
+                  type: INTEGER
+                  constraints:
+                    nullable: true
+              - column:
+                  name: hotel_id
+                  type: BIGINT
+                  constraints:
+                    nullable: false
+        - addForeignKeyConstraint:
+            baseTableName: rooms
+            baseColumnNames: hotel_id
+            referencedTableName: hotels
+            referencedColumnNames: id
+            constraintName: fk_hotel_id

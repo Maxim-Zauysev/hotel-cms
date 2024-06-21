@@ -1,0 +1,50 @@
+databaseChangeLog:
+  - changeSet:
+      id: create-hotels
+      author: maxim
+      changes:
+        - createTable:
+            tableName: hotels
+            columns:
+              - column:
+                  name: id
+                  type: BIGINT
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: name
+                  type: VARCHAR(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: headline
+                  type: VARCHAR(1000)  # Adjust size as needed
+                  constraints:
+                    nullable: true
+              - column:
+                  name: city
+                  type: VARCHAR(255)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: address
+                  type: VARCHAR(1000)  # Adjust size as needed
+                  constraints:
+                    nullable: true
+              - column:
+                  name: center_distance
+                  type: DOUBLE
+                  constraints:
+                    nullable: true
+              - column:
+                  name: rating
+                  type: INTEGER
+                  constraints:
+                    nullable: true
+              - column:
+                  name: review_count
+                  type: INTEGER
+                  constraints:
+                    nullable: true

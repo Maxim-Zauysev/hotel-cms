@@ -1,0 +1,32 @@
+databaseChangeLog:
+    - changeSet:
+          id: add-foreign-keys
+          author: maxim
+          changes:
+              - addForeignKeyConstraint:
+                    baseTableName: users
+                    baseColumnNames: role_id
+                    constraintName: fk_role_id
+                    referencedTableName: authorities
+                    referencedColumnNames: id
+
+              - addForeignKeyConstraint:
+                    baseTableName: authorities
+                    baseColumnNames: user_id
+                    constraintName: fk_user_id
+                    referencedTableName: users
+                    referencedColumnNames: id
+
+              - addForeignKeyConstraint:
+                    baseTableName: booking
+                    baseColumnNames: room_id
+                    referencedTableName: rooms
+                    referencedColumnNames: id
+                    constraintName: fk_room_id
+
+              - addForeignKeyConstraint:
+                    baseTableName: booking
+                    baseColumnNames: user_id
+                    referencedTableName: users
+                    referencedColumnNames: id
+                    constraintName: fk_user_id

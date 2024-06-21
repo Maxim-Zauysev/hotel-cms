@@ -2,8 +2,8 @@ spring:
   main:
     allow-circular-references: true
   jpa:
-    generate-ddl: true
-    open-in-view: false
+    hibernate:
+      ddl-auto: validate
   datasource:
     url: jdbc:postgresql://localhost:5435/hotel_db
     username: postgres
@@ -13,9 +13,13 @@ spring:
       connection-init-sql: CREATE SCHEMA IF NOT EXISTS hotel_app_schema
       connection-timeout: 10000
   liquibase:
-    enabled: false
-
-
+    enabled: true
+    change-log: classpath:db/changelog/db.changelog-master.yaml
+  logging:
+    level:
+      root: INFO
+      org.hibernate: DEBUG
+      org.springframework: DEBUG
 app:
   security:
     type: db

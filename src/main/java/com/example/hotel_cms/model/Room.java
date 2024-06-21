@@ -4,7 +4,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.util.ArrayList;
-import java.util.Date;
+import java.sql.Timestamp;
 import java.util.List;
 
 @Data
@@ -24,7 +24,9 @@ public class Room {
     private Integer guestsLimit;
 
     @ElementCollection
-    private List<Date> unavailableDates;
+    @CollectionTable(name = "room_unavailable_dates", joinColumns = @JoinColumn(name = "room_id"))
+    @Column(name = "unavailable_dates")
+    private List<Timestamp> unavailableDates;
 
     @ManyToOne
     @JoinColumn(name = "hotel_id", nullable = false)
@@ -35,3 +37,6 @@ public class Room {
     @ToString.Exclude
     private List<Booking> bookings = new ArrayList<>();
 }
+
+
+

@@ -1,0 +1,27 @@
+databaseChangeLog:
+  - changeSet:
+      id: create-room-unavailable-dates
+      author: maxim
+      changes:
+        - createTable:
+            tableName: room_unavailable_dates
+            columns:
+              - column:
+                  name: room_id
+                  type: BIGINT
+                  constraints:
+                    nullable: false
+              - column:
+                  name: unavailable_dates
+                  type: TIMESTAMP
+                  constraints:
+                    nullable: false
+        - addPrimaryKey:
+            tableName: room_unavailable_dates
+            columnNames: room_id, unavailable_dates
+        - addForeignKeyConstraint:
+            baseTableName: room_unavailable_dates
+            baseColumnNames: room_id
+            constraintName: fk_room_unavailable_dates_room_id
+            referencedTableName: rooms
+            referencedColumnNames: id
