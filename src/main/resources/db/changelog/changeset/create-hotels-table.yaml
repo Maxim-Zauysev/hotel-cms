@@ -40,7 +40,7 @@ databaseChangeLog:
                     nullable: true
               - column:
                   name: rating
-                  type: INTEGER
+                  type: DOUBLE
                   constraints:
                     nullable: true
               - column:

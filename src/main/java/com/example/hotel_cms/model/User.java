@@ -1,6 +1,7 @@
 package com.example.hotel_cms.model;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -37,4 +38,7 @@ public class User {
     @EqualsAndHashCode.Exclude
     @ToString.Exclude
     private List<Booking> bookings = new ArrayList<>();
+
+    @OneToMany(mappedBy = "user")
+    private List<Review> bookRatingEntities;
 }

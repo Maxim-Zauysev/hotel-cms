@@ -1,5 +1,6 @@
 package com.example.hotel_cms.web.controller;
 
+import com.example.hotel_cms.exception.BadRequestException;
 import com.example.hotel_cms.exception.BookedRoomException;
 import com.example.hotel_cms.exception.EntityNotFoundException;
 import com.example.hotel_cms.exception.NotUniqUserException;
@@ -31,6 +32,14 @@ public class ExceptionHandierController {
     @ExceptionHandler(NotUniqUserException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ResponseEntity<ErrorResponse> handleNotUniqUserException(NotUniqUserException ex) {
+        ErrorResponse response = new ErrorResponse(ex.getMessage());
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
+    }
+
+
+    @ExceptionHandler(BadRequestException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ResponseEntity<ErrorResponse> handleBadRequestException(BadRequestException ex) {
         ErrorResponse response = new ErrorResponse(ex.getMessage());
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
     }

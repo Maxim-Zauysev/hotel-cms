@@ -1,9 +1,11 @@
 package com.example.hotel_cms.service.impl;
 
+import com.example.hotel_cms.exception.BadRequestException;
 import com.example.hotel_cms.exception.EntityNotFoundException;
 import com.example.hotel_cms.model.Hotel;
 import com.example.hotel_cms.repository.HotelRepository;
 import com.example.hotel_cms.service.HotelService;
+import com.example.hotel_cms.service.ManageHotelService;
 import com.example.hotel_cms.utility.BeanUtils;
 import com.example.hotel_cms.web.filter.HotelFilter;
 
@@ -11,13 +13,14 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.text.MessageFormat;
 import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-public class HotelServiceImpl implements HotelService {
+public class HotelServiceImpl implements HotelService, ManageHotelService {
 
     private final HotelRepository hotelRepository;
 
@@ -50,5 +53,25 @@ public class HotelServiceImpl implements HotelService {
     @Override
     public void deleteById(Long id) {
         hotelRepository.deleteById(id);
+    }
+
+    @Override
+    @Transactional
+    public Hotel updateRating(Long hotelId, Integer newMark) {
+        Hotel hotel = findById(hotelId);
+
+        if (newMark > 5 || newMark < 1)
+            throw new BadRequestException("mark should be in range 1 to 5");
+
+        int reviewCount = hotel.getReviewCount() != null ? hotel.getReviewCount() : 0;
+        double totalRating = (hotel.getRating() != null ? hotel.getRating() : 0) * reviewCount;
+
+        totalRating = totalRating + newMark;
+        reviewCount++;
+
+        hotel.setRating(Math.round((totalRating / reviewCount) * 10) / 10.0);
+        hotel.setReviewCount(reviewCount);
+
+        return hotelRepository.save(hotel);
     }
 }

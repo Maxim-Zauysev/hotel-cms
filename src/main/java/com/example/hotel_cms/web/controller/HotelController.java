@@ -3,8 +3,10 @@ package com.example.hotel_cms.web.controller;
 import com.example.hotel_cms.mapping.HotelMapper;
 import com.example.hotel_cms.model.Hotel;
 import com.example.hotel_cms.service.HotelService;
+import com.example.hotel_cms.service.ManageHotelService;
 import com.example.hotel_cms.web.filter.HotelFilter;
 import com.example.hotel_cms.web.request.HotelRequest;
+import com.example.hotel_cms.web.request.UpdateRatingRequest;
 import com.example.hotel_cms.web.response.HotelResponse;
 import com.example.hotel_cms.web.response.HotelResponseList;
 import jakarta.validation.Valid;
@@ -20,6 +22,7 @@ import org.springframework.web.bind.annotation.*;
 public class HotelController {
 
     private final HotelService hotelService;
+    private final ManageHotelService manageHotelService;
     private final HotelMapper hotelMapper;
 
     @PostMapping
@@ -57,4 +60,12 @@ public class HotelController {
         hotelService.deleteById(id);
         return ResponseEntity.noContent().build();
     }
+
+
+    @PutMapping("/update-rating")
+    @PreAuthorize("hasAuthority('ROLE_USER') or hasAuthority('ROLE_ADMIN')")
+    public Hotel updateRating(@RequestBody UpdateRatingRequest updateRatingDTO) {
+        return manageHotelService.updateRating(updateRatingDTO.getHotelId(), updateRatingDTO.getNewMark());
+    }
+
 }
