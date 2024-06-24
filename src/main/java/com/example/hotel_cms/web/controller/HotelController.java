@@ -61,11 +61,17 @@ public class HotelController {
         return ResponseEntity.noContent().build();
     }
 
-
     @PutMapping("/update-rating")
     @PreAuthorize("hasAuthority('ROLE_USER') or hasAuthority('ROLE_ADMIN')")
     public Hotel updateRating(@RequestBody UpdateRatingRequest updateRatingDTO) {
         return manageHotelService.updateRating(updateRatingDTO.getHotelId(), updateRatingDTO.getNewMark());
+    }
+
+    @GetMapping("/filter")
+    public ResponseEntity<HotelResponseList> filterBy(HotelFilter filter){
+        return ResponseEntity.ok(hotelMapper.hotelListToHotelResponseList(
+                hotelService.findByFilter(filter)
+        ));
     }
 
 }

@@ -4,6 +4,7 @@ import com.example.hotel_cms.exception.BadRequestException;
 import com.example.hotel_cms.exception.EntityNotFoundException;
 import com.example.hotel_cms.model.Hotel;
 import com.example.hotel_cms.repository.HotelRepository;
+import com.example.hotel_cms.repository.HotelSpecification;
 import com.example.hotel_cms.service.HotelService;
 import com.example.hotel_cms.service.ManageHotelService;
 import com.example.hotel_cms.utility.BeanUtils;
@@ -11,7 +12,6 @@ import com.example.hotel_cms.web.filter.HotelFilter;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -26,6 +26,11 @@ public class HotelServiceImpl implements HotelService, ManageHotelService {
 
     @Override
     public Hotel create(Hotel hotel) {
+        if (hotel.getReviewCount() == (null))
+            hotel.setReviewCount(0);
+        if (hotel.getRating() == (null))
+            hotel.setRating(0.0);
+
         return hotelRepository.save(hotel);
     }
 
@@ -47,6 +52,15 @@ public class HotelServiceImpl implements HotelService, ManageHotelService {
         return hotelRepository.findAll(PageRequest.of(
                 filter.getPageNumber(),
                 filter.getPageSize()
+        )).getContent();
+    }
+
+    @Override
+    public List<Hotel> findByFilter(HotelFilter filter) {
+        return hotelRepository.findAll(
+                HotelSpecification.withFilter(filter),
+                PageRequest.of(
+                        filter.getPageNumber(), filter.getPageSize()
         )).getContent();
     }
 
