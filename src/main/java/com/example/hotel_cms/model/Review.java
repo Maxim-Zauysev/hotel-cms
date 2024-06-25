@@ -7,7 +7,10 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.List;
+/*
+    Если вы видите это сообщение,
+    то класс еще не используется
+*/
 
 @Data
 @Entity

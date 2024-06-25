@@ -3,6 +3,7 @@ package com.example.hotel_cms.web.controller;
 import com.example.hotel_cms.mapping.RoomMapper;
 import com.example.hotel_cms.model.Room;
 import com.example.hotel_cms.service.RoomService;
+import com.example.hotel_cms.web.filter.RoomFilter;
 import com.example.hotel_cms.web.request.RoomRequest;
 import com.example.hotel_cms.web.response.RoomResponse;
 import com.example.hotel_cms.web.response.RoomResponseList;
@@ -56,6 +57,11 @@ public class RoomController {
     public ResponseEntity<Void> deleteById(@PathVariable Long id){
         roomService.deleteById(id);
         return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping("/filter")
+    public ResponseEntity<RoomResponseList> getByFilter(RoomFilter filter){
+        return ResponseEntity.ok(roomMapper.roomListToRoomResponseList(roomService.findByFilter(filter)));
     }
 
 }

@@ -7,6 +7,7 @@ import com.example.hotel_cms.model.Booking;
 import com.example.hotel_cms.model.Room;
 import com.example.hotel_cms.model.User;
 import com.example.hotel_cms.repository.BookingRepository;
+import com.example.hotel_cms.repository.RoomRepository;
 import com.example.hotel_cms.service.BookingService;
 import com.example.hotel_cms.service.RoomService;
 import com.example.hotel_cms.service.UserService;
@@ -15,7 +16,10 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.sql.Timestamp;
 import java.text.MessageFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -27,6 +31,7 @@ public class BookingServiceImpl implements BookingService {
     private final BookingRepository bookingRepository;
     private final RoomService roomService;
     private final UserService userService;
+    private final RoomRepository roomRepository;
     private final BookingMapper bookingMapper;
 
     @Override
@@ -42,6 +47,11 @@ public class BookingServiceImpl implements BookingService {
         });
         booking.setRoom(room);
         booking.setUser(user);
+
+        List<Date> newUnavailableDates = getDatesBetween(booking.getCheckInDate(), booking.getCheckOutDate());
+        room.getUnavailableDates().addAll(newUnavailableDates);
+        roomRepository.save(room);
+
         return bookingRepository.save(booking);
     }
 
@@ -64,19 +74,22 @@ public class BookingServiceImpl implements BookingService {
                 MessageFormat.format("booking with id {0} not found", id)));
     }
 
-    @Override
-    public Booking update(Booking booking) {
-        return null;
-    }
-
-    @Override
-    public void delete(Long id) {
-
-    }
 
     private boolean isOverLap(Date start1, Date end1, Date start2, Date end2){
         if ((start2.before(start1) && end2.before(start1)) || (start2.after(end1)&& end2.after(end1)))
             return false;
         else return true;
     }
+
+    private List<Date> getDatesBetween(Date startDate, Date endDate) {
+        List<Date> dates = new ArrayList<>();
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(startDate);
+        while (!calendar.getTime().after(endDate)) {
+            dates.add(calendar.getTime());
+            calendar.add(Calendar.DATE, 1);
+        }
+        return dates;
+    }
+
 }

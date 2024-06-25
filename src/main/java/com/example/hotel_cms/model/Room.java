@@ -5,6 +5,7 @@ import lombok.*;
 
 import java.util.ArrayList;
 import java.sql.Timestamp;
+import java.util.Date;
 import java.util.List;
 
 @Data
@@ -26,7 +27,8 @@ public class Room {
     @ElementCollection
     @CollectionTable(name = "room_unavailable_dates", joinColumns = @JoinColumn(name = "room_id"))
     @Column(name = "unavailable_dates")
-    private List<Timestamp> unavailableDates;
+    private List<Date> unavailableDates;
+
 
     @ManyToOne
     @JoinColumn(name = "hotel_id", nullable = false)

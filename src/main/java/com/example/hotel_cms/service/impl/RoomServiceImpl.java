@@ -4,10 +4,13 @@ import com.example.hotel_cms.exception.EntityNotFoundException;
 import com.example.hotel_cms.model.Hotel;
 import com.example.hotel_cms.model.Room;
 import com.example.hotel_cms.repository.RoomRepository;
+import com.example.hotel_cms.repository.RoomSpecification;
 import com.example.hotel_cms.service.HotelService;
 import com.example.hotel_cms.service.RoomService;
 import com.example.hotel_cms.utility.BeanUtils;
+import com.example.hotel_cms.web.filter.RoomFilter;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.text.MessageFormat;
@@ -45,6 +48,14 @@ public class RoomServiceImpl implements RoomService {
     @Override
     public List<Room> findAll() {
         return roomRepository.findAll();
+    }
+
+    @Override
+    public List<Room> findByFilter(RoomFilter filter) {
+        return roomRepository.findAll(RoomSpecification.withFilter(filter),
+                PageRequest.of(
+                        filter.getPageNumber(), filter.getPageSize()
+                )).getContent();
     }
 
     @Override
