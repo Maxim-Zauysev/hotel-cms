@@ -1,4 +1,9 @@
 spring:
+  kafka:
+    bootstrap-servers: localhost:9092
+  data:
+    mongodb:
+      uri: mongodb://root:root@localhost:27017/hotelmongo?authSource=admin
   main:
     allow-circular-references: true
   jpa:
@@ -23,3 +28,7 @@ spring:
 app:
   security:
     type: db
+  kafka:
+    kafkaUserTopic: "user-topic"
+    kafkaBookingTopic: "booking-topic"
+    kafkaGroupId: "group-id"

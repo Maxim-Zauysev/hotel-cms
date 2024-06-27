@@ -6,6 +6,8 @@ import com.example.hotel_cms.mapping.BookingMapper;
 import com.example.hotel_cms.model.Booking;
 import com.example.hotel_cms.model.Room;
 import com.example.hotel_cms.model.User;
+import com.example.hotel_cms.model.kafka.BookingEvent;
+import com.example.hotel_cms.model.kafka.UserEvent;
 import com.example.hotel_cms.repository.BookingRepository;
 import com.example.hotel_cms.repository.RoomRepository;
 import com.example.hotel_cms.service.BookingService;
@@ -13,6 +15,8 @@ import com.example.hotel_cms.service.RoomService;
 import com.example.hotel_cms.service.UserService;
 import com.example.hotel_cms.web.response.BookingResponse;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -28,11 +32,16 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class BookingServiceImpl implements BookingService {
 
+    @Value("${app.kafka.kafkaBookingTopic}")
+    private String topicName;
+
+
     private final BookingRepository bookingRepository;
     private final RoomService roomService;
     private final UserService userService;
     private final RoomRepository roomRepository;
     private final BookingMapper bookingMapper;
+    private final KafkaTemplate<String, BookingEvent> kafkaTemplate;
 
     @Override
     @Transactional
@@ -52,7 +61,16 @@ public class BookingServiceImpl implements BookingService {
         room.getUnavailableDates().addAll(newUnavailableDates);
         roomRepository.save(room);
 
-        return bookingRepository.save(booking);
+        Booking savedBooking = bookingRepository.save(booking);
+
+        // Send event to Kafka
+        BookingEvent event = new BookingEvent();
+        event.setUserId(userId);
+        event.setCheckInDate(booking.getCheckInDate());
+        event.setCheckOutDate(booking.getCheckOutDate());
+        kafkaTemplate.send(topicName, event);
+
+        return savedBooking;
     }
 
     @Transactional(readOnly = true)

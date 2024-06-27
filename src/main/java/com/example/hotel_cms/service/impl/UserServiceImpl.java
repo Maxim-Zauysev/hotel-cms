@@ -4,24 +4,29 @@ import com.example.hotel_cms.exception.EntityNotFoundException;
 import com.example.hotel_cms.exception.NotUniqUserException;
 import com.example.hotel_cms.model.Role;
 import com.example.hotel_cms.model.User;
+import com.example.hotel_cms.model.kafka.UserEvent;
 import com.example.hotel_cms.repository.UserRepository;
 import com.example.hotel_cms.service.UserService;
 import com.example.hotel_cms.utility.BeanUtils;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.text.MessageFormat;
-import java.util.Collections;
 import java.util.List;
 
 @Service
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
 
+    @Value("${app.kafka.kafkaUserTopic}")
+    private String topicName;
+
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
+    private final KafkaTemplate<String, UserEvent> kafkaTemplate;
 
     @Override
     public User create(User user, Role role) {
@@ -30,7 +35,15 @@ public class UserServiceImpl implements UserService {
         user.setRole(role);
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         role.setUser(user);
-        return userRepository.save(user);
+
+        User savedUser = userRepository.save(user);
+
+        // Send event to Kafka
+        UserEvent event = new UserEvent();
+        event.setUserId(savedUser.getId());
+        kafkaTemplate.send(topicName, event);
+
+        return savedUser;
     }
 
     @Override
