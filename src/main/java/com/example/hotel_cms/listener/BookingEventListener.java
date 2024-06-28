@@ -1,11 +1,10 @@
 package com.example.hotel_cms.listener;
 
 import com.example.hotel_cms.model.kafka.BookingEvent;
-import com.example.hotel_cms.repository.BookingEventRepository;
+import com.example.hotel_cms.repository.mongo.BookingEventRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.kafka.support.KafkaHeaders;
 import org.springframework.messaging.handler.annotation.Header;
@@ -22,7 +21,6 @@ public class BookingEventListener {
     @Value("${app.kafka.kafkaBookingTopic}")
     private String topicName;
 
-    private final MongoTemplate mongoTemplate;
     private final BookingEventRepository bookingEventRepository;
 
     @KafkaListener(topics = "${app.kafka.kafkaBookingTopic}",
@@ -35,7 +33,6 @@ public class BookingEventListener {
                        @Header(KafkaHeaders.RECEIVED_TIMESTAMP) Long timestamp){
 
         log.info("Received message: {}", message);
-        mongoTemplate.save(message, topicName);
         bookingEventRepository.save(message);
     }
 }

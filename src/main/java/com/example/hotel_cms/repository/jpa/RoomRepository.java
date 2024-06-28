@@ -1,6 +1,5 @@
-package com.example.hotel_cms.repository;
+package com.example.hotel_cms.repository.jpa;
 
-import com.example.hotel_cms.model.Hotel;
 import com.example.hotel_cms.model.Room;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

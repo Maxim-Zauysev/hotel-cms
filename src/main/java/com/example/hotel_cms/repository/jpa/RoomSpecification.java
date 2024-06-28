@@ -1,4 +1,4 @@
-package com.example.hotel_cms.repository;
+package com.example.hotel_cms.repository.jpa;
 
 import com.example.hotel_cms.model.Booking;
 import com.example.hotel_cms.model.Hotel;

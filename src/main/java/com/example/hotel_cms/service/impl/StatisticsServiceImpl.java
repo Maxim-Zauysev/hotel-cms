@@ -2,8 +2,8 @@ package com.example.hotel_cms.service.impl;
 
 import com.example.hotel_cms.model.kafka.BookingEvent;
 import com.example.hotel_cms.model.kafka.UserEvent;
-import com.example.hotel_cms.repository.BookingEventRepository;
-import com.example.hotel_cms.repository.UserEventRepository;
+import com.example.hotel_cms.repository.mongo.BookingEventRepository;
+import com.example.hotel_cms.repository.mongo.UserEventRepository;
 import com.example.hotel_cms.service.StatisticsService;
 import com.opencsv.CSVWriter;
 import lombok.RequiredArgsConstructor;
@@ -18,7 +18,6 @@ import java.util.List;
 @RequiredArgsConstructor
 public class StatisticsServiceImpl implements StatisticsService {
 
-    private final MongoTemplate mongoTemplate;
     private final UserEventRepository userEventRepository;
     private final BookingEventRepository bookingEventRepository;
 

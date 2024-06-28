@@ -64,10 +64,10 @@ public class ExceptionHandierController {
                 .body(new ErrorResponse(errorMessage));
     }
 
-    @ExceptionHandler(Exception.class)
-    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-    public ResponseEntity<ErrorResponse> handleException(Exception ex) {
-        ErrorResponse response = new ErrorResponse("An unexpected error occurred");
-        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
-    }
+//    @ExceptionHandler(Exception.class)
+//    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+//    public ResponseEntity<ErrorResponse> handleException(Exception ex) {
+//        ErrorResponse response = new ErrorResponse("An unexpected error occurred");
+//        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
+//    }
 }

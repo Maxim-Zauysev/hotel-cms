@@ -1,11 +1,10 @@
 package com.example.hotel_cms.listener;
 
 import com.example.hotel_cms.model.kafka.UserEvent;
-import com.example.hotel_cms.repository.UserEventRepository;
+import com.example.hotel_cms.repository.mongo.UserEventRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.kafka.support.KafkaHeaders;
 import org.springframework.messaging.handler.annotation.Header;
@@ -22,7 +21,6 @@ public class UserEventListener {
     @Value("${app.kafka.kafkaUserTopic}")
     private String topicName;
 
-    private final MongoTemplate mongoTemplate;
     private final UserEventRepository userEventRepository;
 
     @KafkaListener(topics = "${app.kafka.kafkaUserTopic}",
@@ -34,7 +32,6 @@ public class UserEventListener {
                        @Header(KafkaHeaders.RECEIVED_PARTITION) Integer partition,
                        @Header(KafkaHeaders.RECEIVED_TIMESTAMP) Long timestamp){
         log.info("Received message: {}", message);
-        mongoTemplate.save(message, topicName);
         userEventRepository.save(message);
     }
 }

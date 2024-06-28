@@ -23,17 +23,16 @@ import org.springframework.security.web.SecurityFilterChain;
 public class SecurityConfiguration {
 
     @Bean
-    @ConditionalOnProperty(prefix = "app.security",name = "type", havingValue = "db")
+    @ConditionalOnProperty(prefix = "app.security", name = "type", havingValue = "db")
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder(12);
     }
 
-
     @Bean
-    @ConditionalOnProperty(prefix = "app.security",name = "type", havingValue = "db")
+    @ConditionalOnProperty(prefix = "app.security", name = "type", havingValue = "db")
     public AuthenticationManager databaseAuthenticationManager(HttpSecurity http,
                                                                UserDetailsService userDetailsService,
-                                                               PasswordEncoder passwordEncoder) throws Exception{
+                                                               PasswordEncoder passwordEncoder) throws Exception {
 
         var authManagerBuilder = http.getSharedObject(AuthenticationManagerBuilder.class);
 
@@ -46,11 +45,10 @@ public class SecurityConfiguration {
         return authManagerBuilder.build();
     }
 
-
     @Bean
-    public SecurityFilterChain filterChain(HttpSecurity http, AuthenticationManager authenticationManager) throws Exception
-    {
-        http.authorizeHttpRequests((auth)->auth
+    public SecurityFilterChain filterChain(HttpSecurity http, AuthenticationManager authenticationManager) throws Exception {
+        http.authorizeHttpRequests((auth) -> auth
+                        .requestMatchers("/swagger-ui.html", "/v3/api-docs/**", "/swagger-ui/**").permitAll()
                         .requestMatchers("/api/v1/user/**").permitAll()
                         .anyRequest().authenticated())
                 .csrf(AbstractHttpConfigurer::disable)

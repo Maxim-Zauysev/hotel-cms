@@ -5,7 +5,7 @@ import com.example.hotel_cms.exception.NotUniqUserException;
 import com.example.hotel_cms.model.Role;
 import com.example.hotel_cms.model.User;
 import com.example.hotel_cms.model.kafka.UserEvent;
-import com.example.hotel_cms.repository.UserRepository;
+import com.example.hotel_cms.repository.jpa.UserRepository;
 import com.example.hotel_cms.service.UserService;
 import com.example.hotel_cms.utility.BeanUtils;
 import lombok.RequiredArgsConstructor;
