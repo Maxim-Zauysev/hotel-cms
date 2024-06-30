@@ -14,6 +14,6 @@ public class HotelResponse {
     private String city;
     private String address;
     private Double centerDistance;
-    private Integer rating;
+    private Double rating;
     private Integer reviewCount;
 }

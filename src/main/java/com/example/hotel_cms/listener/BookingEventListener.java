@@ -32,7 +32,8 @@ public class BookingEventListener {
                        @Header(KafkaHeaders.RECEIVED_PARTITION) Integer partition,
                        @Header(KafkaHeaders.RECEIVED_TIMESTAMP) Long timestamp){
 
-        log.info("Received message: {}", message);
         bookingEventRepository.save(message);
+        log.info("Received message: {}", message);
+
     }
 }

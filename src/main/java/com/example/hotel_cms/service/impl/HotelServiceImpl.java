@@ -25,7 +25,7 @@ public class HotelServiceImpl implements HotelService, ManageHotelService {
     private final HotelRepository hotelRepository;
 
     @Override
-    public Hotel create(Hotel hotel) {
+    public Hotel    create(Hotel hotel) {
         if (hotel.getReviewCount() == (null))
             hotel.setReviewCount(0);
         if (hotel.getRating() == (null))

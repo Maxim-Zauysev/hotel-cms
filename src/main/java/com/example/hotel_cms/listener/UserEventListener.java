@@ -31,7 +31,9 @@ public class UserEventListener {
                        @Header(KafkaHeaders.RECEIVED_TOPIC) String topic,
                        @Header(KafkaHeaders.RECEIVED_PARTITION) Integer partition,
                        @Header(KafkaHeaders.RECEIVED_TIMESTAMP) Long timestamp){
-        log.info("Received message: {}", message);
+
         userEventRepository.save(message);
+        log.info("Received message: {}", message);
+
     }
 }

@@ -63,8 +63,8 @@ public class HotelController {
 
     @PutMapping("/update-rating")
     @PreAuthorize("hasAuthority('ROLE_USER') or hasAuthority('ROLE_ADMIN')")
-    public Hotel updateRating(@RequestBody UpdateRatingRequest updateRatingDTO) {
-        return manageHotelService.updateRating(updateRatingDTO.getHotelId(), updateRatingDTO.getNewMark());
+    public ResponseEntity<HotelResponse> updateRating(@RequestBody UpdateRatingRequest updateRatingDTO) {
+        return ResponseEntity.ok(hotelMapper.hotelToResponse(manageHotelService.updateRating(updateRatingDTO.getHotelId(), updateRatingDTO.getNewMark())));
     }
 
     @GetMapping("/filter")

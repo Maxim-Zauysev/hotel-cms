@@ -40,5 +40,5 @@ public class User {
     private List<Booking> bookings = new ArrayList<>();
 
     @OneToMany(mappedBy = "user")
-    private List<Review> bookRatingEntities;
+    private List<Review> bookRatingEntities = new ArrayList<>();
 }
